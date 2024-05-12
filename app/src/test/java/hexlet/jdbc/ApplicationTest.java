@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
-class ApplicationTest {
+public class ApplicationTest {
 
     @Test
     public void testApplication() throws SQLException {
