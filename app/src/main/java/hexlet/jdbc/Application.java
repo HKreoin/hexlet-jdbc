@@ -21,7 +21,7 @@ public class Application {
         statement.execute(sql);
         statement.close(); // В конце закрываем
 
-        var sql2 = "INSERT INTO users (username, phone) VALUES ('tommy', '123456789')";
+        var sql2 = "INSERT INTO users (username, phone) VALUES ('tommy', '123456789'), ('Vanya', '89172341276')";
         var statement2 = conn.createStatement();
         statement2.executeUpdate(sql2);
         statement2.close();
@@ -33,7 +33,7 @@ public class Application {
         // Набор данных — это итератор
         // Мы перемещаемся по нему с помощью next() и каждый раз получаем новые значения
         while (resultSet.next()) {
-            System.out.println(resultSet.getString("username"));
+            System.out.print(resultSet.getString("username" + " "));
             System.out.println(resultSet.getString("phone"));
         }
         statement3.close();

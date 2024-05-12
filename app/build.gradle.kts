@@ -19,6 +19,7 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
+    implementation("com.h2database:h2:2.2.220")
 }
 
 testing {
@@ -40,7 +41,5 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass.set("hexlet.jdbc.App")
+    mainClass.set("hexlet.jdbc.Application")
 }
-
-implementation("com.h2database:h2:2.2.220")
