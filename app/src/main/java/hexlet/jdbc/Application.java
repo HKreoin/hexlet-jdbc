@@ -3,6 +3,7 @@
  */
 package hexlet.jdbc;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,7 +15,7 @@ public class Application {
         // Создаем соединение с базой в памяти
         // База создается прямо во время выполнения этой строчки
         // Здесь hexlet_test — это имя базы данных
-        try (var conn = DriverManager.getConnection("jdbc:h2:mem:hexlet_test")) {
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:mem:hexlet_test")) {
 
             var sql = "CREATE TABLE users (id BIGINT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(255), phone VARCHAR(255))";
             // Чтобы выполнить запрос, создадим объект statement
@@ -22,46 +23,18 @@ public class Application {
                 statement.execute(sql);
             }
 
-            var sql2 = "INSERT INTO users (username, phone) VALUES (?, ?)";
-            try (var preparedStatement = conn.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS)) {
-                
-                
-                preparedStatement.setString(1, "Tommy");
-                preparedStatement.setString(2, "123456789");
-                preparedStatement.executeUpdate();
-                var generatedKeys = preparedStatement.getGeneratedKeys(); 
-                if (generatedKeys.next()) {
-                    System.out.println(generatedKeys.getLong(1));
-                } else {
-                    throw new SQLException("DB have not returned an ID after saving the entity");
-                }
-                
-                preparedStatement.setString(1, "Vanya");
-                preparedStatement.setString(2, "89172341276");
-                preparedStatement.executeUpdate();
-                var generatedKeys1 = preparedStatement.getGeneratedKeys();
-                if (generatedKeys1.next()) {
-                    System.out.println(generatedKeys1.getLong(1));
-                } else {
-                    throw new SQLException("DB have not returned an ID after saving the entity");
-                }
-                
-                preparedStatement.setString(1, "Marya");
-                preparedStatement.setString(2, "44444444");
-                preparedStatement.executeUpdate();
-                var generatedKeys2 = preparedStatement.getGeneratedKeys();
-                if (generatedKeys2.next()) {
-                    System.out.println(generatedKeys2.getLong(1));
-                } else {
-                    throw new SQLException("DB have not returned an ID after saving the entity");
-                }
-            }
-            var sql3 = "DELETE FROM users WHERE username = ?";
-            try (var preparedStatement1 = conn.prepareStatement(sql3)) {
-                preparedStatement1.setString(1, "Marya");
-                preparedStatement1.executeUpdate();
-            }
+            var user = new User("Tommy", "123456789");
+            var user1 = new User("Vanya", "89172341276");
+            var user2 = new User("Marya", "44444444");
 
+            var userDao = new UserDAO(conn);
+            userDao.save(user);
+            userDao.save(user1);
+            userDao.save(user2);
+            var index = 3L;
+            System.out.println(userDao.find(index).toString());
+            userDao.delete(index);
+            System.out.println(userDao.find(index).toString());
 
             var sql4 = "SELECT * FROM users";
             try (var statement4 = conn.createStatement()) {

@@ -14,9 +14,8 @@ public class ApplicationTest {
     @Test
     public void testApplication() throws SQLException {
         final String[] expected = {
-            "1",
-            "2",
-            "3",            
+            "Optional[User(username=Marya, phone=44444444, id=3)]",
+            "Optional.empty",
             "Tommy 123456789",
             "Vanya 89172341276"
         };
