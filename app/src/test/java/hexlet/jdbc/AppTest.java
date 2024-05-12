@@ -3,9 +3,24 @@
  */
 package hexlet.jdbc;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.sql.SQLException;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
-class AppTest {
+class ApplicationTest {
 
+    @Test
+    public void testApplication() throws SQLException {
+        final String[] expected = {
+            "tommy 123456789",
+            "Vanya 89172341276"
+        };
+        var out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        Application.main(null);
+        final String[] actual = out.toString().trim().split("\n");
+        assertThat(actual).containsExactly(expected);
+    }
 }

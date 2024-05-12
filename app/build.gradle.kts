@@ -20,6 +20,7 @@ dependencies {
     // This dependency is used by the application.
     implementation(libs.guava)
     implementation("com.h2database:h2:2.2.220")
+    testImplementation("org.assertj:assertj-core:3.22.0")
 }
 
 testing {
