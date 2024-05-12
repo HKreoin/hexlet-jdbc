@@ -21,6 +21,11 @@ dependencies {
     implementation(libs.guava)
     implementation("com.h2database:h2:2.2.220")
     testImplementation("org.assertj:assertj-core:3.22.0")
+    compileOnly("org.projectlombok:lombok:1.18.32")
+	annotationProcessor("org.projectlombok:lombok:1.18.32")
+	
+	testCompileOnly("org.projectlombok:lombok:1.18.32")
+	testAnnotationProcessor("org.projectlombok:lombok:1.18.32")
 }
 
 testing {
