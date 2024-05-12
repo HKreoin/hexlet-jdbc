@@ -14,7 +14,10 @@ public class ApplicationTest {
     @Test
     public void testApplication() throws SQLException {
         final String[] expected = {
-            "tommy 123456789",
+            "1",
+            "2",
+            "3",            
+            "Tommy 123456789",
             "Vanya 89172341276"
         };
         var out = new ByteArrayOutputStream();

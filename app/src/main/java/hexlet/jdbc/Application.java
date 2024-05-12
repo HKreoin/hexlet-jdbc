@@ -5,6 +5,7 @@ package hexlet.jdbc;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Application {
     // Нужно указывать базовое исключение,
@@ -21,15 +22,51 @@ public class Application {
                 statement.execute(sql);
             }
 
-            var sql2 = "INSERT INTO users (username, phone) VALUES ('tommy', '123456789'), ('Vanya', '89172341276')";
-            try (var statement2 = conn.createStatement()) {
-                statement2.executeUpdate(sql2);
+            var sql2 = "INSERT INTO users (username, phone) VALUES (?, ?)";
+            try (var preparedStatement = conn.prepareStatement(sql2, Statement.RETURN_GENERATED_KEYS)) {
+                
+                
+                preparedStatement.setString(1, "Tommy");
+                preparedStatement.setString(2, "123456789");
+                preparedStatement.executeUpdate();
+                var generatedKeys = preparedStatement.getGeneratedKeys(); 
+                if (generatedKeys.next()) {
+                    System.out.println(generatedKeys.getLong(1));
+                } else {
+                    throw new SQLException("DB have not returned an ID after saving the entity");
+                }
+                
+                preparedStatement.setString(1, "Vanya");
+                preparedStatement.setString(2, "89172341276");
+                preparedStatement.executeUpdate();
+                var generatedKeys1 = preparedStatement.getGeneratedKeys();
+                if (generatedKeys1.next()) {
+                    System.out.println(generatedKeys1.getLong(1));
+                } else {
+                    throw new SQLException("DB have not returned an ID after saving the entity");
+                }
+                
+                preparedStatement.setString(1, "Marya");
+                preparedStatement.setString(2, "44444444");
+                preparedStatement.executeUpdate();
+                var generatedKeys2 = preparedStatement.getGeneratedKeys();
+                if (generatedKeys2.next()) {
+                    System.out.println(generatedKeys2.getLong(1));
+                } else {
+                    throw new SQLException("DB have not returned an ID after saving the entity");
+                }
+            }
+            var sql3 = "DELETE FROM users WHERE username = ?";
+            try (var preparedStatement1 = conn.prepareStatement(sql3)) {
+                preparedStatement1.setString(1, "Marya");
+                preparedStatement1.executeUpdate();
             }
 
-            var sql3 = "SELECT * FROM users";
-            try (var statement3 = conn.createStatement()) {
+
+            var sql4 = "SELECT * FROM users";
+            try (var statement4 = conn.createStatement()) {
                 // Здесь вы видите указатель на набор данных в памяти СУБД
-                var resultSet = statement3.executeQuery(sql3);
+                var resultSet = statement4.executeQuery(sql4);
                 // Набор данных — это итератор
                 // Мы перемещаемся по нему с помощью next() и каждый раз получаем новые значения
                 while (resultSet.next()) {
