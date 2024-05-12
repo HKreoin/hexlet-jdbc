@@ -33,7 +33,7 @@ public class Application {
         // Набор данных — это итератор
         // Мы перемещаемся по нему с помощью next() и каждый раз получаем новые значения
         while (resultSet.next()) {
-            System.out.print(resultSet.getString("username" + " "));
+            System.out.print(resultSet.getString("username") + " ");
             System.out.println(resultSet.getString("phone"));
         }
         statement3.close();
